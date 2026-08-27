@@ -100,6 +100,11 @@ The draft [project charter](docs/project_charter.md) defines the expected
 requirements, objectives, measurable pilot targets, outputs, milestones, and
 explicit non-goals for evolving this proof of concept.
 
+AI-assisted contributors should begin with the
+[agent orientation and recommended references](docs/ai_agents/README.md), which
+distinguishes source-backed guidance from exploratory notes and provides a
+pre-commit self-check.
+
 ## What's inside
 
 | | |
