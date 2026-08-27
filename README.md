@@ -6,12 +6,24 @@
 > distributed here — each player supplies their own ROM, which never leaves
 > their browser. Full text in [`DISCLAIMER.md`](DISCLAIMER.md).
 
+## Mission
+
+Our mission is to build an extensible, browser-based Pokémon MMO that brings
+players together in the Gen 1 world while preserving a responsible
+bring-your-own-ROM model. By building on the project's established ROM
+validation and local extraction framework, we keep copyrighted game data in
+each player's browser while creating clear extension points for new multiplayer
+systems, content, and community-built experiences.
+
 Gen 1, in the browser, with your friends. You see each other on the map, you
 challenge each other by pressing **A** in front of another trainer, and you
 battle using the game's original `LinkBattle` engine.
 
-No sign-up, no passwords, no accounts: your public name is your trainer's name.
+v1. No sign-up, no passwords, no accounts: your public name is your trainer's name.
 The server only relays positions and battle turns.
+
+v2. SQL account management, server protections against cheating, and structured 
+client/server data exchanges form a framework for an MMO-like experience.
 
 ## Play
 
@@ -83,6 +95,10 @@ and press **A**. For the web client, `./web/build-web.sh` then `./web/serve.py`
 Ports: desktop TCP `7778`, health `3000`, dev WebSocket `7779` (`WS_PORT`),
 production WebSocket `/ws` on the HTTP port. The coordinator and protocol are
 shared between the two transports.
+
+The draft [project charter](docs/project_charter.md) defines the expected
+requirements, objectives, measurable pilot targets, outputs, milestones, and
+explicit non-goals for evolving this proof of concept.
 
 ## What's inside
 
