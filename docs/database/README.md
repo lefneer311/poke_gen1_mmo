@@ -1,14 +1,14 @@
 # PostgreSQL schema draft
 
 These migrations implement the proposed P2 model described in
-[`docs/database/architecture.md`](../docs/database/architecture.md). They are a
-design artifact; the current backend does not connect to a database yet.
+[`architecture.md`](architecture.md). They are executable schema artifacts; the
+current backend does not connect to a database yet.
 
 Create an empty PostgreSQL 16+ database, connect as a role allowed to create
 extensions and roles, and run:
 
 ```bash
-for migration in database/migrations/*.sql; do
+for migration in docs/database/migrations/*.sql; do
   psql -v ON_ERROR_STOP=1 "$DATABASE_URL" -f "$migration"
 done
 ```

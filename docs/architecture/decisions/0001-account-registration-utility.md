@@ -10,14 +10,17 @@
 
 The current coordinator accepts a guest display name and keeps all identity in
 memory. It has no account API, credential store, session recovery, or database
-connection. The P2 charter calls for durable identity, but P2 begins only after
+connection. The repository now contains executable PostgreSQL migrations for
+accounts, credentials, sessions, audit events, and command idempotency under
+[`docs/database/migrations`](../../database/migrations). The P2 charter calls
+for durable identity, but P2 begins only after
 the P1 protocol, authority, abuse-control, and observability gates are stable.
 This ADR therefore proposes an implementation boundary and acceptance contract;
 it does not approve an early public registration service or change the current
 guest flow.
 
-The draft PostgreSQL schema already separates `accounts`,
-`account_credentials`, and `account_sessions`. Registration must preserve that
+The PostgreSQL schema separates `accounts`, `account_credentials`, and
+`account_sessions`. Registration must preserve that
 separation, keep database credentials out of clients, and never collect a ROM,
 save, party, position, or other gameplay data. A command-line interface (CLI)
 and a browser portal have different presentation and secret-handling risks, but
@@ -82,23 +85,25 @@ are `invalid_request`, `registration_unavailable`, `name_unavailable`,
 must not reveal which field identifies an existing account; a later recovery
 flow may provide a generic out-of-band response.
 
-Requests should carry an `Idempotency-Key`. The service stores a short-lived
-digest associated with the normalized request result so retrying after a lost
-response does not create a second account. Reusing a key with a different
-request is rejected. The exact storage mechanism and retention period must be
-specified before implementation; raw passwords and complete request bodies
-must never be retained.
+Requests carry an `Idempotency-Key` containing a UUID. The service stores its
+short-lived result in `account_registration_requests`, introduced by migration
+`004_account_registration.sql`, so retrying after a lost response does not
+create a second account. The existing `processed_commands` table cannot serve
+this purpose because its primary key requires an account ID before registration
+has resolved one. Reusing a key with a different request is rejected. Raw
+passwords and complete request bodies must never be retained.
 
 ### Transaction and persistence
 
 After cheap validation and abuse checks, the backend hashes the password with a
 reviewed Argon2id library and a unique salt. In one PostgreSQL transaction it:
 
-1. inserts `accounts` and `account_credentials`;
-2. records the idempotent result without the password or email value;
-3. appends a bounded audit event containing the account ID, outcome, request ID,
+1. locks or creates the matching `account_registration_requests` row;
+2. inserts `accounts` and `account_credentials`;
+3. records the idempotent result without the password or email value;
+4. appends a bounded audit event containing the account ID, outcome, request ID,
    and coarse source metadata; and
-4. commits before sending a response.
+5. commits before sending a response.
 
 Only the encoded password hash is stored. Logs, metrics, traces, problem
 details, shell history, process arguments, analytics, and audit JSON must not
@@ -140,7 +145,7 @@ recover from a partial deployment.
 | Username and locale | Identify and localize an account in `accounts` | Retain while active; remove or pseudonymize through the approved deletion flow |
 | Optional email | Future verification and recovery in `accounts` | Do not collect until those flows and their lawful purpose are approved; delete with the account unless retention is legally required |
 | Encoded password hash | Authenticate in `account_credentials` | Replace on password change; delete on account erasure; never back up plaintext because plaintext is never stored |
-| Idempotency digest and result | Make registration retries safe | Short retention to be selected and tested before implementation |
+| Registration request digest and result | Make registration retries safe in `account_registration_requests` | Seven days, followed by a bounded cleanup job |
 | Security audit event | Detect abuse and support incident response | Proposed 180 days, subject to operator/legal review before collection |
 | Aggregate metrics | Operate the service | Retention set by the operator; no account or request identifiers |
 
@@ -157,7 +162,8 @@ Implementation should use reviewable slices:
 
 1. **Readiness:** accept this ADR, assign security/privacy/operations owners,
    finish the prerequisite P1 gates, approve retention and credential policy,
-   and add a migration runner plus restore evidence.
+   and add a migration runner plus restore evidence. Apply migrations
+   `001_foundations.sql` through `004_account_registration.sql` in order.
 2. **Backend:** add a persistence interface, PostgreSQL adapter, registration
    use case, feature flag, API controller, problem schema, rate limits, audit
    redaction, and metrics. Keep guest play unchanged.

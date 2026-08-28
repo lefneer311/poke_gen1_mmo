@@ -15,6 +15,8 @@ account
 
 Credentials and token digests are deliberately separate from characters. The
 full constraints and deletion behavior are defined in
-[`002_gameplay.sql`](../../database/migrations/002_gameplay.sql), while audit
+[`002_gameplay.sql`](migrations/002_gameplay.sql), while audit
 and idempotency records are defined in
-[`003_operations.sql`](../../database/migrations/003_operations.sql).
+[`003_operations.sql`](migrations/003_operations.sql) and pre-account
+registration retries are defined in
+[`004_account_registration.sql`](migrations/004_account_registration.sql).
