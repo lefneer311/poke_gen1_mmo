@@ -73,28 +73,28 @@ The following files are useful background, but they are not decisions:
 Use these documents to discover questions, then validate answers in the charter,
 source-backed documentation, implementation, and tests.
 
-## Recommended documentation set to add
+## Documentation set
 
-The repository would benefit from the following focused documents. Add each
-only when a maintainer can establish its owner and source of truth; an empty or
-speculative policy is worse than an explicit gap.
+The following focused documents now have initial drafts. A **draft** describes
+current evidence and explicit gaps; it does not imply maintainer approval. Each
+policy identifies its owner or records that an owner remains unassigned.
 
 | Proposed document | Recommended contents |
 | --- | --- |
-| `docs/mission_and_principles.md` | A short, stable statement of whom the project serves, the bring-your-own-ROM and non-commercial principles, browser-first priorities, accessibility expectations, and the meaning of “MMO” at each milestone. |
-| `docs/roadmap.md` | The active milestone, sequenced outcomes, dependencies, owners, and links to acceptance evidence. It should reference rather than duplicate the charter. |
-| `docs/architecture/current.md` | A maintained current-state component diagram, ownership boundaries, data flows, trust boundaries, and links to the implementing modules. |
-| `docs/architecture/decisions/NNNN-short-title.md` | Immutable architecture decision records containing context, decision, alternatives, consequences, status, and superseding decision. |
-| `docs/protocol.md` | Versioned client/server messages, directions, schemas, size limits, state transitions, error codes, compatibility policy, and canonical fixtures. |
-| `docs/security_and_privacy.md` | Threat model, trust boundaries, accepted client authority, validation and abuse controls, secrets/logging rules, player-data lifecycle, and reporting guidance. |
-| `docs/legal_and_asset_policy.md` | Actionable rules for ROMs, extracted assets, saves, screenshots, original assets, licenses, attribution, and artifact review. This should complement, not weaken, the disclaimer. |
-| `CONTRIBUTING.md` | Repository-wide setup, branch and commit expectations, change sizing, issue/PR requirements, review responsibilities, and a map to subsystem guides. |
-| `docs/style_guide.md` | Language-specific formatting and naming rules, Markdown conventions, whitespace and alignment policy, generated-file rules, and formatter/linter commands. Prefer automated rules over subjective prose. |
-| `docs/testing.md` | The test pyramid, exact commands by subsystem, required tests by change type, fixtures, deterministic RNG/time guidance, browser checks, and how to report environmental limitations. |
-| `docs/definition_of_done.md` | A concise self-review checklist covering scope, behavior, compatibility, security, legal safety, documentation, tests, generated outputs, and rollback. |
-| `docs/release_and_operations.md` | Supported environments, build/release steps, artifact scanning, deployment, observability, rollback, backup/restore, and incident procedures appropriate to the active milestone. |
-| `docs/accessibility.md` | Keyboard, focus, labels, color/contrast, motion, touch targets, browser/game-canvas constraints, and manual plus automated checks. |
-| `docs/dependencies_and_upstreams.md` | Imported trees, upstream locations and revisions, local patch policy, update procedure, retained licenses, and dependency review expectations. |
+| [`docs/mission_and_principles.md`](../mission_and_principles.md) | A short, stable statement of whom the project serves, the bring-your-own-ROM and non-commercial principles, browser-first priorities, accessibility expectations, and the meaning of “MMO” at each milestone. |
+| [`docs/roadmap.md`](../roadmap.md) | The active milestone, sequenced outcomes, dependencies, owners, and links to acceptance evidence. It references rather than duplicates the charter. |
+| [`docs/architecture/current.md`](../architecture/current.md) | A maintained current-state component diagram, ownership boundaries, data flows, trust boundaries, and links to the implementing modules. |
+| [`docs/architecture/decisions/NNNN-short-title.md`](../architecture/decisions/0000-template.md) | Immutable architecture decision records containing context, decision, alternatives, consequences, status, and superseding decision. |
+| [`docs/protocol.md`](../protocol.md) | Current client/server messages, directions, schemas, known size limits, state transitions, error codes, and the compatibility policy; versioning and canonical fixtures remain gaps. |
+| [`docs/security_and_privacy.md`](../security_and_privacy.md) | Threat model, trust boundaries, accepted client authority, validation and abuse controls, secrets/logging rules, player-data lifecycle, and reporting guidance. |
+| [`docs/legal_and_asset_policy.md`](../legal_and_asset_policy.md) | Actionable rules for ROMs, extracted assets, saves, screenshots, original assets, licenses, attribution, and artifact review. It complements rather than weakens the disclaimer. |
+| [`CONTRIBUTING.md`](../../CONTRIBUTING.md) | Repository-wide setup, branch and commit expectations, change sizing, issue/PR requirements, review responsibilities, and a map to subsystem guides. |
+| [`docs/style_guide.md`](../style_guide.md) | Language-specific formatting and naming rules, Markdown conventions, whitespace and alignment policy, generated-file rules, and available checks. |
+| [`docs/testing.md`](../testing.md) | The test pyramid, exact commands by subsystem, required tests by change type, fixtures, deterministic RNG/time guidance, browser checks, and how to report environmental limitations. |
+| [`docs/definition_of_done.md`](../definition_of_done.md) | A concise self-review checklist covering scope, behavior, compatibility, security, legal safety, documentation, tests, generated outputs, and rollback. |
+| [`docs/release_and_operations.md`](../release_and_operations.md) | Supported environments, build/release steps, artifact scanning, deployment, observability, rollback, backup/restore gaps, and incident procedures appropriate to the active milestone. |
+| [`docs/accessibility.md`](../accessibility.md) | Keyboard, focus, labels, color/contrast, motion, touch targets, browser/game-canvas constraints, and manual plus automated checks. |
+| [`docs/dependencies_and_upstreams.md`](../dependencies_and_upstreams.md) | Imported trees, known revision gaps, local patch policy, update procedure, retained licenses, and dependency review expectations. |
 
 Keep each policy close to the code it governs when a repository-wide document
 would become vague. A subsystem guide may override a general recommendation,
