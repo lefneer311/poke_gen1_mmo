@@ -67,6 +67,9 @@ The following files are useful background, but they are not decisions:
   questions that prompted source inspection.
 - [`assessment_ideas.md`](assessment_ideas.md) collects suggested directions and
   trade-offs.
+- [`assessment_response.md`](assessment_response.md) evaluates each collected
+  idea, assigns a milestone-aware disposition, and defines validation gates. It
+  remains a proposal rather than an accepted architecture decision.
 - [`proposed_architecture.md`](../proposed_architecture.md) illustrates a target
   architecture without defining a migration plan or current guarantees.
 
