@@ -56,6 +56,13 @@ HTTP registration endpoint; public signup still requires rate limiting, abuse
 controls, verification, and the privacy/operations review described in the
 project security guidance.
 
+The reusable authentication service in `src/account/authentication.ts` verifies
+those credentials with a generic failure response, observes account locks and
+status, and creates a 24-hour opaque session by default. Only the SHA-256 digest
+of each session token is passed to persistence; callers must return the raw token
+once and then discard it. Public login transport, rate limiting, and cookie
+policy remain deliberately outside this service layer.
+
 ## Presence flow
 
 The first message must be:
