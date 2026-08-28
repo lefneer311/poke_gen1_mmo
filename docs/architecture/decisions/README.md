@@ -4,6 +4,11 @@ Architecture decision records (ADRs) preserve consequential decisions and the
 reasoning available when they were accepted. They do not replace implementation
 documentation.
 
+## Records
+
+- [ADR 0001: Account registration utility boundary](0001-account-registration-utility.md)
+  — **Proposed**
+
 ## Process
 
 1. Copy [`0000-template.md`](0000-template.md) to the next unused four-digit
