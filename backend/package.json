@@ -11,6 +11,7 @@
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main.js",
     "db:migrate": "ts-node src/database/migrate.ts",
+    "account:register": "ts-node src/account/register.ts",
     "test": "jest --runInBand",
     "test:watch": "jest --watch"
   },

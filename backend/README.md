@@ -36,6 +36,26 @@ NDJSON. Both transports share the same protocol, coordinator, and world: a TCP
 client can see and challenge a WebSocket client. The per-message limit is 64
 KiB. The ROM and the save must not be uploaded to this service.
 
+## Register an account
+
+After applying the migrations, an operator or local user can create an account
+with the command-line utility. The password is accepted only on standard input
+so that it does not appear in shell history or the process list:
+
+```bash
+printf '%s\n' 'a-long-unique-password' | npm run account:register -- \
+  --username Red --email red@example.test --password-stdin
+```
+
+`DATABASE_URL` selects the database. Usernames are 3-32 ASCII letters, numbers,
+or underscores; passwords are 12-128 UTF-8 bytes. Email is optional. Registration
+inserts the account and its salted scrypt password verifier in one transaction,
+and duplicate usernames or email addresses are reported without identifying
+which field already exists. This utility deliberately does not expose a public
+HTTP registration endpoint; public signup still requires rate limiting, abuse
+controls, verification, and the privacy/operations review described in the
+project security guidance.
+
 ## Presence flow
 
 The first message must be:
