@@ -4,12 +4,12 @@ The earlier table sketch has been superseded by the reviewed PostgreSQL
 proposal in [`architecture.md`](architecture.md). The executable definitions
 are split into ordered migrations:
 
-1. [`001_foundation.sql`](../../database/migrations/001_foundation.sql) — roles,
+1. [`001_foundation.sql`](migrations/001_foundation.sql) — roles,
    schema, extensions and migration tracking;
-2. [`002_gameplay.sql`](../../database/migrations/002_gameplay.sql) — accounts,
+2. [`002_gameplay.sql`](migrations/002_gameplay.sql) — accounts,
    sessions, worlds, characters, Pokémon, inventory, progression, verified
    battle summaries and trades; and
-3. [`003_operations.sql`](../../database/migrations/003_operations.sql) —
+3. [`003_operations.sql`](migrations/003_operations.sql) —
    sanctions, retry safety, audit events and the transactional outbox.
 
 The schema intentionally contains no ROM-derived reference catalogue. See the

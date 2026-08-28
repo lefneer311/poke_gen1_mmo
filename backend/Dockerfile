@@ -5,7 +5,7 @@
 # puerto porque es lo único que un PaaS o un túnel saben exponer; el
 # WebSocket va montado en /ws sobre ese mismo puerto.
 #
-#   docker build -t pokemon-mmo-server backend
+#   docker build -t pokemon-mmo-server -f backend/Dockerfile .
 #   docker run --rm -p 8080:8080 pokemon-mmo-server
 #
 # Comprobación:  curl http://localhost:8080/health
@@ -16,11 +16,11 @@ WORKDIR /app
 
 # Las dependencias se copian solas primero para que un cambio en src/ no
 # invalide la capa de npm ci, que es la lenta.
-COPY package.json package-lock.json ./
+COPY backend/package.json backend/package-lock.json ./
 RUN npm ci
 
-COPY tsconfig.json tsconfig.build.json nest-cli.json ./
-COPY src ./src
+COPY backend/tsconfig.json backend/tsconfig.build.json backend/nest-cli.json ./
+COPY backend/src ./src
 RUN npm run build
 
 # Las de desarrollo (Nest CLI, TypeScript, Jest) ya han hecho su trabajo.
@@ -35,13 +35,15 @@ USER node
 
 COPY --from=build --chown=node:node /app/node_modules ./node_modules
 COPY --from=build --chown=node:node /app/dist ./dist
-COPY --chown=node:node package.json ./
+COPY --chown=node:node backend/package.json ./
+COPY --chown=node:node docs/database/migrations ./migrations
 
 ENV NODE_ENV=production
 ENV PORT=8080
 # Sin WS_PORT: en producción el WebSocket comparte el puerto HTTP en /ws.
 # Definirlo aquí abriría un segundo puerto que nadie podría alcanzar.
 ENV HOST=0.0.0.0
+ENV DATABASE_MIGRATIONS_DIR=/app/migrations
 
 EXPOSE 8080
 

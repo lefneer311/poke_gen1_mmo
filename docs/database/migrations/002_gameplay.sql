@@ -1,4 +1,5 @@
 BEGIN;
+SET LOCAL ROLE mmo_owner;
 SET LOCAL search_path = mmo, public;
 
 CREATE TYPE account_status AS ENUM ('active', 'locked', 'pending_deletion', 'deleted');

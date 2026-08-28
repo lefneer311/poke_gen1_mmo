@@ -1,4 +1,5 @@
 BEGIN;
+SET LOCAL ROLE mmo_owner;
 SET LOCAL search_path = mmo, public;
 
 CREATE TYPE sanction_kind AS ENUM ('warning', 'mute', 'suspension', 'ban');
