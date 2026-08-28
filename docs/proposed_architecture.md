@@ -32,7 +32,7 @@
        │ progression             │
        └────────────┬────────────┘
                     │
-                  SQL
+                   SQL
                     │
                     ▼
        ┌─────────────────────────┐
@@ -46,3 +46,8 @@
        │ quests                  │
        │ persistent world state  │
        └─────────────────────────┘
+
+The application-server diagram is a target rather than the current runtime.
+The proposed incremental boundary, protocol, failure semantics, and migration
+gates for its `battles` responsibility are detailed in the
+[server-authoritative battle design](battle_server_authority.md).
