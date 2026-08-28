@@ -64,6 +64,10 @@ reaches the bundle.
 For something permanent, publish the client and run the server separately — the
 page serves no ROM, so each player loads their own.
 
+For clean-machine prerequisites and PostgreSQL 16+ setup on Windows 11,
+Ubuntu 26.04 LTS, and macOS, follow the
+[operating-system setup and hosting runbook](docs/os-server-setup.md).
+
 - **Client:** fork, then **Settings → Pages → Source: GitHub Actions**. Lands at
   `https://YOUR-USERNAME.github.io/pokemon-mmo/`. It's a plain static folder
   (`web/dist/`) with no COOP/COEP requirement, so Netlify, S3, or

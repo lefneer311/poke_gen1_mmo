@@ -5,10 +5,10 @@ These migrations implement the proposed P2 model described in
 design artifact; the current backend does not connect to a database yet.
 
 Create an empty PostgreSQL 16+ database, connect as a role allowed to create
-extensions and roles, and run:
+extensions and roles, and, from the repository root run:
 
 ```bash
-for migration in database/migrations/*.sql; do
+for migration in docs/database/migrations/*.sql; do
   psql -v ON_ERROR_STOP=1 "$DATABASE_URL" -f "$migration"
 done
 ```
