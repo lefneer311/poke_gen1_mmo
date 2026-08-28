@@ -41,9 +41,15 @@ export async function verifyPassword(password: string, encoded: string): Promise
   const match = /^scrypt\$N=(\d+),r=(\d+),p=(\d+)\$([^$]+)\$([^$]+)$/.exec(encoded);
   if (!match) return false;
   const [, n, r, p, saltValue, hashValue] = match;
+  // Never let values read from storage turn password verification into an
+  // unbounded memory/CPU allocation. These are the only parameters emitted by
+  // hashPassword; a different encoding is treated as an invalid verifier.
+  if (Number(n) !== SCRYPT_COST || Number(r) !== 8 || Number(p) !== 1) return false;
+  if (!/^[A-Za-z0-9+/]{22}==$/.test(saltValue) || !/^[A-Za-z0-9+/]{43}=$/.test(hashValue)) return false;
   const expected = Buffer.from(hashValue, 'base64');
-  const actual = await scrypt(password, Buffer.from(saltValue, 'base64'), expected.length, {
-    N: Number(n), r: Number(r), p: Number(p),
+  if (expected.length !== 32) return false;
+  const actual = await scrypt(password, Buffer.from(saltValue, 'base64'), 32, {
+    N: SCRYPT_COST, r: 8, p: 1,
   }) as Buffer;
   return actual.length === expected.length && timingSafeEqual(actual, expected);
 }
