@@ -1,19 +1,19 @@
 # PostgreSQL schema draft
 
 These migrations implement the proposed P2 model described in
-[`docs/database/architecture.md`](../docs/database/architecture.md). They are a
-design artifact; the current backend does not connect to a database yet.
+[`architecture.md`](architecture.md). They are executed and checksum-verified
+by the backend migration runner.
 
 Create an empty PostgreSQL 16+ database, connect as a role allowed to create
 extensions and roles, and run:
 
 ```bash
-for migration in database/migrations/*.sql; do
-  psql -v ON_ERROR_STOP=1 "$DATABASE_URL" -f "$migration"
-done
+cd backend
+DATABASE_MIGRATION_URL=postgresql://... npm run db:migrate
 ```
 
-The scripts are transactional and record applied versions in
+The runner serializes concurrent deploys with a PostgreSQL advisory lock. The
+scripts are transactional and record applied versions and SHA-256 checksums in
 `mmo.schema_migrations`. `001` creates the owner/application roles. Change role
 login credentials outside these files (preferably through a secret manager).
 Production migration automation should connect as a separately provisioned

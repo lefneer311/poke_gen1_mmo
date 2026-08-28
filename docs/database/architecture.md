@@ -122,8 +122,9 @@ four-hour restore target is not met merely by configuring a backup job.
    durable gameplay tables, and `003` adds audit, idempotency and outbox tables.
 2. Load a reviewed reference-data version and its checksum. The repository
    intentionally supplies no copyrighted catalogue or ROM-derived data.
-3. Add a persistence adapter behind the existing coordinator and dual-write
-   only server-verified checkpoints in a private staging environment.
+3. Use the backend's pooled database adapter for server-owned repositories and
+   dual-write only server-verified checkpoints in a private staging
+   environment. The guest coordinator remains deliberately ephemeral.
 4. Verify constraints, idempotent reward tests, concurrent trade tests, backup
    restore, account export/deletion and rollback before making SQL authoritative.
 5. Roll out the authenticated persistent vertical slice separately from guest

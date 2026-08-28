@@ -1,8 +1,9 @@
 # Link Battle MMO — backend MVP
 
-NestJS coordinator server for the `gen1recomp` desktop prototype. There are no
-accounts or databases: each connection picks a guest name and all state lives
-in memory.
+NestJS coordinator server for the `gen1recomp` desktop prototype. Guest world
+state remains in memory, while the PostgreSQL connection and schema are now
+available for the persistent application slices described in the database
+architecture.
 
 ## Startup
 
@@ -10,13 +11,24 @@ Requires Node.js 22 or later.
 
 ```bash
 npm install
+npm run db:migrate
 npm run dev
 ```
 
-- HTTP: `http://localhost:3000/health`
+- HTTP: `http://localhost:3000/health` (includes a PostgreSQL readiness query)
 - TCP: `localhost:7778`
 - WebSocket: `ws://localhost:7779`
-- Variables: `HTTP_PORT`, `TCP_PORT`, `WS_PORT`, and `HOST`
+- Required variable: `DATABASE_URL`
+- Migration variable: `DATABASE_MIGRATION_URL` (falls back to `DATABASE_URL`)
+- Optional database variables: `DATABASE_POOL_SIZE`,
+  `DATABASE_CONNECT_TIMEOUT_SECONDS`, `DATABASE_IDLE_TIMEOUT_SECONDS`, and
+  `DATABASE_ROLE` (defaults to the least-privilege `mmo_app` role)
+- Network variables: `HTTP_PORT`, `TCP_PORT`, `WS_PORT`, and `HOST`
+
+For local development, `docker compose up --build` starts PostgreSQL, applies
+the ordered migrations, and starts the server. Migration credentials must be
+able to create extensions and roles; application credentials should be limited
+to `mmo_app` in deployed environments.
 
 Each TCP message is a JSON object on a single line terminated by `\n`. On
 WebSocket, each text frame contains exactly one JSON object, with no `\n` or
