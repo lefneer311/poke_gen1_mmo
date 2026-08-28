@@ -5,7 +5,7 @@ These migrations implement the proposed P2 model described in
 by the backend migration runner.
 
 Create an empty PostgreSQL 16+ database, connect as a role allowed to create
-extensions and roles, and run:
+extensions and roles, and, from the repository root run:
 
 ```bash
 cd backend
